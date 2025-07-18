@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package crypto;
+option go_package = "grpc-crypto/proto;proto";
+
+import "google/api/annotations.proto";
+
+
+service CryptoService {
+  rpc EncryptAES(AESCryptoRequest) returns (CryptoResponse){
+    option (google.api.http) = {
+      post:"/v1/encrypt/aes"
+      body:"*";
+    };
+  };
+
+  rpc DecryptAES(AESCryptoRequest) returns (CryptoResponse){
+    option (google.api.http) = {
+      post:"/v1/decrypt/aes"
+      body:"*"
+    };
+  };
+
+  rpc EncryptDES(DESCryptoRequest) returns (CryptoResponse){
+    option (google.api.http) = {
+      post:"/v1/encrypt/des"
+      body:"*"
+    };
+  };
+
+  rpc DecryptDES(DESCryptoRequest) returns (CryptoResponse){
+    option (google.api.http) = {
+      post:"/v1/decrypt/des"
+      body:"*";
+    };
+  };
+
+  rpc EncryptRSA(RSACryptoRequest) returns (CryptoResponse){
+    option (google.api.http) = {
+      post:"/v1/encrypt/rsa"
+      body:"*";
+    };
+  };
+
+  rpc DecryptRSA(RSACryptoRequest) returns (CryptoResponse){
+    option (google.api.http) = {
+      post:"/v1/decrypt/rsa"
+      body:"*";
+    };
+  };
+
+  rpc HashSHA256 (HashRequest) returns (HashResponse){
+    option (google.api.http) = {
+      post:"/v1/hash/sha256"
+      body:"*";
+    };
+  }
+}
+
+message AESCryptoRequest {
+  string key = 1;
+  string data = 2;
+}
+
+message DESCryptoRequest {
+  string key = 1;
+  string data = 2;
+}
+
+message RSACryptoRequest {
+  string data = 1;
+  string public_key = 2;
+  string private_key = 3;
+}
+
+message HashRequest {
+  string data = 1;
+}
+
+message CryptoResponse {
+  string result = 1;
+}
+
+message HashResponse {
+  string hash = 1;
+}
